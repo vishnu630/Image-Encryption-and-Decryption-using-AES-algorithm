@@ -7,9 +7,11 @@ import sys
 import random
 import argparse
 import logging
-from Tkinter import *
-import tkFileDialog
-import tkMessageBox
+from tkinter import *
+import tkinter as tk # this is the preferred import for tkinter
+import tkinter.filedialog
+from tkinter import filedialog
+from tkinter import messagebox
 import os
 import PIL
 from PIL import Image
@@ -226,10 +228,10 @@ def decrypt(ciphername,password):
 # ---------------------
 
 def pass_alert():
-   tkMessageBox.showinfo("Password Alert","Please enter a password.")
+   messagebox.showinfo("Password Alert","Please enter a password.")
 
 def enc_success(imagename):
-   tkMessageBox.showinfo("Success","Encrypted Image: " + imagename)
+   messagebox.showinfo("Success","Encrypted Image: " + imagename)
 
 # image encrypt button event
 def image_open():
@@ -240,7 +242,7 @@ def image_open():
         pass_alert()
     else:
         password = hashlib.sha256(enc_pass).digest()
-        filename = tkFileDialog.askopenfilename()
+        filename = filedialog.askopenfilename()
         file_path_e = os.path.dirname(filename)
         encrypt(filename,password)
 
@@ -253,7 +255,7 @@ def cipher_open():
         pass_alert()
     else:
         password = hashlib.sha256(dec_pass).digest()
-        filename = tkFileDialog.askopenfilename()
+        filename = filedialog.askopenfilename()
         file_path_d = os.path.dirname(filename)
         decrypt(filename,password)
 
@@ -296,3 +298,8 @@ root = Tk()
 root.wm_title("Image Encryption")
 app = App(root)
 root.mainloop()
+
+ # Install X Virtual Frame Buffer
+import os
+os.system('Xvfb :1 -screen 0 1600x1200x16  &')    # create virtual display with size 1600x1200 and 16 bit color. Color can be changed to 24 or 8
+os.environ['DISPLAY']=':1.0' 
